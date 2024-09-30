@@ -32,7 +32,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         ExchangeResponse exchangeResponse = exchangeService.getExchangeRateWithAmount(
                 convertRequest.getOriginalCurrency(),convertRequest.getTargetCurrency(), BigDecimal.valueOf(UNIT_VALUE)
         );
-
+// todo calculation with input
         return exchangeResponseToExchangeRateMapper.map(exchangeResponse);
 
     }
