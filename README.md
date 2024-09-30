@@ -7,15 +7,15 @@
 ### 📖 Information
 
 <ul style="list-style-type:disc">
-  <li>This project demonstrates a <b>Spring Boot</b> application for managing foreign exchange operations. It allows users to convert currencies, retrieve current exchange rates, and view conversion history.</li>
+  <li>This project demonstrates a <b>Spring Boot</b> application for managing foreign exchange operations with calculation. It allows users to convert currencies with calcualtion based on user discount.</li>
   <li>The application integrates with an external service provider for fetching exchange rates and performing currency conversion calculations.</li>
-  <li>The application includes three main endpoints:
-    <ul>
-      <li>Exchange Rate Endpoint: Fetches the current exchange rate between two currencies.</li>
-      <li>Currency Conversion Endpoint: Converts a given amount from one currency to another and returns a unique transaction identifier.</li>
-      <li>Conversion History Endpoint: Retrieves the history of currency conversions based on transaction identifiers or dates.</li>
-    </ul>
-  </li>
+  <li>	Apply discounts as per the following rules:</li>
+  <li>	If the user is an employee of the store, they get a 30% discount.</li>
+  <li>	If the user is an affiliate of the store, they get a 10% discount.</li>
+  <li>	If the user has been a customer for over 2 years, they get a 5% discount.</li>
+  <li>	For every $100 on the bill, there is a $5 discount.</li>
+  <li>	The percentage-based discounts do not apply to groceries.</li>
+  <li>	A user can get only one of the percentage-based discounts on a bill.</li>
 </ul>
 
 
@@ -47,8 +47,8 @@ Endpoints Summary
 ### Technologies
 
 ---
-- Java 23
-- Spring Boot 3.0
+- Java 11
+- Spring Boot 2.7
 - Restful API
 - Maven
 - Junit5
