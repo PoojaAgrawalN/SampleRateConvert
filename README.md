@@ -57,8 +57,7 @@ Endpoints Summary
 
 ```
 
-
-### Prerequisites
+**### Prerequisites**
 
 #### Define Variable in .env file for http://api.currencylayer.com/
 
@@ -68,9 +67,53 @@ EXCHANGE_API_API_KEY={EXCHANGE_API_API_KEY}
 
 
 ---
-### Maven Run
+### Maven Run and Postman Collection to test the API changes
+
 To build and run the application with `Maven`, please follow the directions shown below;
 
-```sh
+
 $ mvn clean install
 $ mvn spring-boot:run
+
+
+[Uploading Exchange Calculater.postman_collection.json]
+```sh
+{
+	"info": {
+		"_postman_id": "aa7501be-1e9e-4325-9631-0a7a4f59cc17",
+		"name": "Exchange Calculater",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38679747"
+	},
+	"item": [
+		{
+			"name": "Currency Conversion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originalCurrency\" : \"USD\",\r\n    \"targetCurrency\" : \"EUR\",\r\n    \"totalAmount\" : 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1331/api/calculate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1331",
+					"path": [
+						"api",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
