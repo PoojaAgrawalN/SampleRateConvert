@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @SuperBuilder
-@MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BaseDomainModel {

@@ -2,11 +2,8 @@ package com.example.demo.exception.handler;
 
 import com.example.demo.exception.ExchangeNotFoundException;
 import com.example.demo.exception.error.CustomError;
-import jakarta.validation.ConstraintViolationException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,16 +25,6 @@ public class GlobalExceptionHandler {
 
         ex.getBindingResult().getAllErrors().forEach(
                 error -> {
-                    if (error instanceof FieldError fieldError) {
-                        String fieldName = fieldError.getField();
-                        String message = fieldError.getDefaultMessage();
-                        subErrors.add(
-                                CustomError.CustomSubError.builder()
-                                        .field(fieldName)
-                                        .message(message)
-                                        .build()
-                        );
-                    } else if (error != null) {
                         String objectName = error.getObjectName();
                         String message = error.getDefaultMessage();
                         subErrors.add(
@@ -46,7 +33,6 @@ public class GlobalExceptionHandler {
                                         .message(message)
                                         .build()
                         );
-                    }
                 }
         );
 
@@ -61,40 +47,6 @@ public class GlobalExceptionHandler {
 
     }
 
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<Object> handlePathVariableErrors(final ConstraintViolationException constraintViolationException) {
-
-        List<CustomError.CustomSubError> subErrors = new ArrayList<>();
-        constraintViolationException.getConstraintViolations()
-                .forEach(constraintViolation ->
-                        subErrors.add(
-                                CustomError.CustomSubError.builder()
-                                        .message(constraintViolation.getMessage())
-                                        .field(StringUtils.substringAfterLast(constraintViolation.getPropertyPath().toString(), "."))
-                                        .value(constraintViolation.getInvalidValue() != null ? constraintViolation.getInvalidValue().toString() : null)
-                                        .type(constraintViolation.getInvalidValue().getClass().getSimpleName())
-                                        .build()
-                        )
-                );
-
-        CustomError customError = CustomError.builder()
-                .httpStatus(HttpStatus.BAD_REQUEST)
-                .header(CustomError.Header.VALIDATION_ERROR.getName())
-                .message("Constraint violation")
-                .subErrors(subErrors)
-                .build();
-
-        return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
-
-    }
-
-    /**
-     * Handles RuntimeException thrown for general runtime exceptions.
-     *
-     * @param runtimeException The RuntimeException instance.
-     * @return ResponseEntity with CustomError containing details of the runtime exception.
-     */
     @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<?> handleRuntimeException(final RuntimeException runtimeException) {
         CustomError customError = CustomError.builder()

@@ -5,10 +5,7 @@ import com.example.demo.model.Convert;
 import com.example.demo.model.ExchangeRate;
 import com.example.demo.model.dto.request.ConvertRequest;
 import com.example.demo.model.dto.request.ExchangeRateRequest;
-import com.example.demo.model.dto.response.ConvertResponse;
 import com.example.demo.model.dto.response.ExchangeRateResponse;
-import com.example.demo.model.mapper.ConvertToConvertResponseMapper;
-import com.example.demo.model.mapper.ExchangeRateToExchangeRateResponseMapper;
 import com.example.demo.service.ExchangeRateService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,12 +30,6 @@ class ExchangeControllerTest extends AbstractRestControllerTest {
     private ExchangeRateService exchangeRateService;
 
 
-    private final ConvertToConvertResponseMapper convertToConvertResponseMapper =
-            ConvertToConvertResponseMapper.initialize();
-
-    private final ExchangeRateToExchangeRateResponseMapper exchangeRateToExchangeRateResponseMapper =
-            ExchangeRateToExchangeRateResponseMapper.initialize();
-
     @Test
     @DisplayName("Given ExchangeRateRequest - When ConvertCurrency - Then Return ExchangeRateResponse")
     void givenExchangeRateRequest_whenConvertCurrency_thenReturnExchangeRateResponse() throws Exception {
@@ -52,9 +43,6 @@ class ExchangeControllerTest extends AbstractRestControllerTest {
         ExchangeRate exchangeRate = ExchangeRate.builder()
                 .result(new BigDecimal("0.85"))
                 .build();
-
-        ExchangeRateResponse exchangeRateResponse =
-                exchangeRateToExchangeRateResponseMapper.map(exchangeRate);
 
         // When
         when(exchangeRateService.exchangeRate(any(ConvertRequest.class)))
@@ -89,11 +77,8 @@ class ExchangeControllerTest extends AbstractRestControllerTest {
                 .convertedAmount(new BigDecimal("85.00"))
                 .build();
 
-        ConvertResponse convertResponse = convertToConvertResponseMapper.map(convert);
 
         DecimalFormat decimalFormat = new DecimalFormat("0.0", new DecimalFormatSymbols(Locale.US));
-        String actualConvertedAmount = decimalFormat.format(convertResponse.getConvertedAmount());
-
         // Then
         mockMvc.perform(post("/api/calculate")
                         .contentType(MediaType.APPLICATION_JSON)

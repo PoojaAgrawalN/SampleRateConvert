@@ -2,9 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.ExchangeRate;
 import com.example.demo.model.dto.request.ConvertRequest;
-import com.example.demo.model.dto.request.ExchangeRateRequest;
 import com.example.demo.model.dto.response.ExchangeResponse;
-import com.example.demo.model.mapper.ExchangeResponseToExchangeRateMapper;
 import com.example.demo.service.ExchangeRateService;
 import com.example.demo.service.ExchangeService;
 import lombok.RequiredArgsConstructor;
@@ -21,20 +19,28 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     private final ExchangeService exchangeService;
 
-    private static final Integer UNIT_VALUE = 1;
-
-    private final ExchangeResponseToExchangeRateMapper exchangeResponseToExchangeRateMapper =
-            ExchangeResponseToExchangeRateMapper.initialize();
 
     @Override
     public ExchangeRate exchangeRate(ConvertRequest convertRequest) {
+        if (convertRequest.getUserType().equalsIgnoreCase("EMP")) {
+            BigDecimal discount = new BigDecimal("0.30");
+            BigDecimal discountedPrice = convertRequest.getTotalAmount().subtract(convertRequest.getTotalAmount().multiply(discount));
+            convertRequest.setTotalAmount(discountedPrice);
+        } else if (convertRequest.getUserType().equalsIgnoreCase("affiliate")) {
+            BigDecimal discount = new BigDecimal("0.10");
+            BigDecimal discountedPrice = convertRequest.getTotalAmount().subtract(convertRequest.getTotalAmount().multiply(discount));
+            convertRequest.setTotalAmount(discountedPrice);
+        } else if (convertRequest.getCustomerTenure() >= 2L) {
+            BigDecimal discount = new BigDecimal("0.05");
+            BigDecimal discountedPrice = convertRequest.getTotalAmount().subtract(convertRequest.getTotalAmount().multiply(discount));
+            convertRequest.setTotalAmount(discountedPrice);
+        }
 
         ExchangeResponse exchangeResponse = exchangeService.getExchangeRateWithAmount(
-                convertRequest.getOriginalCurrency(),convertRequest.getTargetCurrency(), BigDecimal.valueOf(UNIT_VALUE)
+                convertRequest.getOriginalCurrency(),convertRequest.getTargetCurrency(), convertRequest.getTotalAmount()
         );
-// todo calculation with input
-        return exchangeResponseToExchangeRateMapper.map(exchangeResponse);
 
+        return new ExchangeRate(exchangeResponse.getResult());
     }
 
 }

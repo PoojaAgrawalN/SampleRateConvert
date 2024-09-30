@@ -2,18 +2,11 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-/**
- * Main class named {@link ForeignexchangeexampleApplication} to start the Role Permission example application.
- */
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class SampleExchangeConvertApplication {
 
-	/**
-	 * Main method to start the Spring Boot application.
-	 *
-	 * @param args the command line arguments
-	 */
 	public static void main(String[] args) {
 		SpringApplication.run(SampleExchangeConvertApplication.class, args);
 	}

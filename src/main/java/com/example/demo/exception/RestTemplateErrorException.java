@@ -1,14 +1,11 @@
 package com.example.demo.exception;
 
 import com.example.demo.exception.error.CustomError;
+import lombok.Getter;
 
-import java.io.Serial;
 
-
+@Getter
 public class RestTemplateErrorException extends RuntimeException {
-
-    @Serial
-    private static final long serialVersionUID = -5037730675640226667L;
 
     private final CustomError customError;
 
@@ -17,9 +14,5 @@ public class RestTemplateErrorException extends RuntimeException {
         this.customError = customError;
     }
 
-
-    public CustomError getCustomError() {
-        return customError;
-    }
 
 }
