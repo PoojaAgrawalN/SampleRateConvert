@@ -12,8 +12,6 @@
   <li>	Apply discounts as per the following rules:</li>
   <li>	If the user is an employee of the store, they get a 30% discount.</li>
   <li>	If the user is an affiliate of the store, they get a 10% discount.</li>
-  <li>	If the user has been a customer for over 2 years, they get a 5% discount.</li>
-  <li>	For every $100 on the bill, there is a $5 discount.</li>
   <li>	The percentage-based discounts do not apply to groceries.</li>
   <li>	A user can get only one of the percentage-based discounts on a bill.</li>
 </ul>
